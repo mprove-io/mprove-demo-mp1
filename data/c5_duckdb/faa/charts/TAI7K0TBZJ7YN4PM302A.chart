@@ -1,0 +1,10 @@
+chart: TAI7K0TBZJ7YN4PM302A
+tiles:
+- title: Flights Flights Count
+  model: c5_flights
+  select:
+  - flights_count
+  type: single
+  data:
+    y_fields:
+    - flights_count

@@ -1,0 +1,11 @@
+##! experimental{sql_functions}
+
+source: c5_aircraft_models_table is c5_duckdb.table('db1.aircraft_models') extend {}
+
+source: c5_aircraft_models_tx is c5_aircraft_models_table extend {
+  primary_key: aircraft_model_code
+
+  measure: 
+    aircraft_models_count is count()
+    seats_sum is sum(seats)
+}

@@ -1,0 +1,65 @@
+##! experimental{sql_functions}
+
+source: c5_flights_table is c5_duckdb.table('db1.flights') extend {}
+
+source: c5_flights_tx is c5_flights_table extend {
+  primary_key: id2
+
+  rename: origin_code is origin
+  rename: destination_code is destination
+
+  measure: 
+    flights_count is count()
+    total_distance is sum(distance)
+    average_flight_distance is distance.avg()
+
+  #(mprove) build_metrics field_group="Arrived At"
+  dimension: 
+    arrived_at_ts is arr_time
+    arrived_at_day is arrived_at_ts.day
+    arrived_at_week is arrived_at_ts.week
+    arrived_at_month is arrived_at_ts.month
+    arrived_at_quarter is arrived_at_ts.quarter
+    arrived_at_year is arrived_at_ts.year
+    arrived_at_hour is arrived_at_ts.hour
+    arrived_at_minute is arrived_at_ts.minute
+    arrived_at_second is arrived_at_ts.second
+
+  #(mprove) field_group="Arrived At - Extra"
+  dimension: 
+    arrived_at_day_num is day(arrived_at_ts)
+    arrived_at_day_of_week_num is day_of_week(arrived_at_ts)
+    arrived_at_day_of_year_num is day_of_year(arrived_at_ts)
+    arrived_at_week_num is week(arrived_at_ts)
+    arrived_at_month_num is month(arrived_at_ts)
+    arrived_at_quarter_num is quarter(arrived_at_ts)
+    arrived_at_year_num is year(arrived_at_ts)
+    arrived_at_hour_num is hour(arrived_at_ts)
+    arrived_at_minute_num is minute(arrived_at_ts)
+    arrived_at_second_num is second(arrived_at_ts)
+
+  #(mprove) build_metrics field_group="Departed At"
+  dimension: 
+    departed_at_ts is dep_time
+    departed_at_day is departed_at_ts.day
+    departed_at_week is departed_at_ts.week
+    departed_at_month is departed_at_ts.month
+    departed_at_quarter is departed_at_ts.quarter
+    departed_at_year is departed_at_ts.year
+    departed_at_hour is departed_at_ts.hour
+    departed_at_minute is departed_at_ts.minute
+    departed_at_second is departed_at_ts.second
+
+  #(mprove) field_group="Departed At - Extra"
+  dimension: 
+    departed_at_day_num is day(departed_at_ts)
+    departed_at_day_of_week_num is day_of_week(departed_at_ts)
+    departed_at_day_of_year_num is day_of_year(departed_at_ts)
+    departed_at_week_num is week(departed_at_ts)
+    departed_at_month_num is month(departed_at_ts)
+    departed_at_quarter_num is quarter(departed_at_ts)
+    departed_at_year_num is year(departed_at_ts)
+    departed_at_hour_num is hour(departed_at_ts)
+    departed_at_minute_num is minute(departed_at_ts)
+    departed_at_second_num is second(departed_at_ts)
+}

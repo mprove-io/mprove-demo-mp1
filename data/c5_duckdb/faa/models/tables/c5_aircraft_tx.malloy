@@ -1,0 +1,9 @@
+##! experimental{sql_functions}
+
+source: c5_aircraft_table is c5_duckdb.table('db1.aircraft') extend {}
+
+source: c5_aircraft_tx is c5_aircraft_table extend {
+  primary_key: tail_num
+
+  measure: aircrafts_count is count()
+}

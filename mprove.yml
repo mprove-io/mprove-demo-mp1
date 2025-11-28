@@ -1,0 +1,6 @@
+mprove_dir: ./data     
+case_sensitive_string_filters: false
+format_number: ''
+thousands_separator: ' '
+currency_prefix: '$'
+currency_suffix: ''

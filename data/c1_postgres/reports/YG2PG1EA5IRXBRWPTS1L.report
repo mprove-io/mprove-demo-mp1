@@ -1,0 +1,19 @@
+report: YG2PG1EA5IRXBRWPTS1L
+title: Flights - Seats (2000 - 2005)
+rows:
+- row_id: A
+  type: metric
+  metric: c5_flights.seats_sum.by.departed_at
+  show_chart: true
+  parameters: []
+
+- row_id: B
+  type: metric
+  metric: c5_flights.aircraft_seats_sum.by.departed_at
+  parameters: []
+
+- row_id: C
+  type: metric
+  metric: c5_flights.aircraft_models.seats_sum.by.departed_at
+  parameters: []
+options: {}

@@ -1,0 +1,10 @@
+chart: 3RSWC67J95AJU09HWYEY
+tiles:
+- title: TOP 5 Inventory Items Count by Products Brand
+  model: c1_order_items
+  select:
+  - inventory_items.inventory_items_count
+  - products.brand
+  sorts: inventory_items.inventory_items_count desc
+  limit: 5
+  type: table

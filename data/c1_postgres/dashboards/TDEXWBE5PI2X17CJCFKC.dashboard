@@ -1,0 +1,211 @@
+dashboard: TDEXWBE5PI2X17CJCFKC
+title: Ecom
+parameters:
+- filter: order_created_at
+  result: ts
+  conditions:
+  - f``
+
+- filter: state_name
+  result: string
+  suggest_model_dimension: c1_order_items.users.state_name
+  conditions:
+  - f`Texas`
+tiles:
+- title: Average Sale Price by Category
+  model: c1_order_items
+  select:
+  - products.category
+  - average_sale_price
+  sorts: average_sale_price desc
+  parameters:
+  - apply_to: orders.created_at_ts
+    listen: order_created_at
+  - apply_to: users.state_name
+    listen: state_name
+  type: table
+  plate:
+    plate_width: 9
+    plate_height: 13
+    plate_x: 0
+    plate_y: 17
+
+- title: Profit by Traffic Source
+  model: c1_order_items
+  select:
+  - total_profit
+  - users.traffic_source
+  parameters:
+  - apply_to: orders.created_at_ts
+    listen: order_created_at
+  - apply_to: users.state_name
+    listen: state_name
+  type: pie
+  data:
+    x_field: users.traffic_source
+    y_fields:
+    - total_profit
+  plate:
+    plate_width: 8
+    plate_height: 11
+    plate_x: 16
+    plate_y: 6
+
+- title: Customers
+  model: c1_order_items
+  select:
+  - users.users_count
+  parameters:
+  - apply_to: orders.created_at_ts
+    listen: order_created_at
+  - apply_to: users.state_name
+    listen: state_name
+  type: single
+  data:
+    y_fields:
+    - users.users_count
+  plate:
+    plate_width: 4
+    plate_height: 6
+    plate_x: 0
+    plate_y: 0
+
+- title: Orders
+  model: c1_order_items
+  select:
+  - orders.orders_count
+  parameters:
+  - apply_to: orders.created_at_ts
+    listen: order_created_at
+  - apply_to: users.state_name
+    listen: state_name
+  type: single
+  data:
+    y_fields:
+    - orders.orders_count
+  plate:
+    plate_width: 4
+    plate_height: 6
+    plate_x: 8
+    plate_y: 0
+
+- title: Products
+  model: c1_order_items
+  select:
+  - products.products_count
+  parameters:
+  - apply_to: orders.created_at_ts
+    listen: order_created_at
+  - apply_to: users.state_name
+    listen: state_name
+  type: single
+  data:
+    y_fields:
+    - products.products_count
+  plate:
+    plate_width: 4
+    plate_height: 6
+    plate_x: 4
+    plate_y: 0
+
+- title: $ Sales
+  model: c1_order_items
+  select:
+  - total_sale_price
+  parameters:
+  - apply_to: orders.created_at_ts
+    listen: order_created_at
+  - apply_to: users.state_name
+    listen: state_name
+  type: single
+  data:
+    y_fields:
+    - total_sale_price
+  plate:
+    plate_width: 4
+    plate_height: 6
+    plate_x: 12
+    plate_y: 0
+
+- title: $ Cost
+  model: c1_order_items
+  select:
+  - inventory_items.total_actual_cost
+  parameters:
+  - apply_to: orders.created_at_ts
+    listen: order_created_at
+  - apply_to: users.state_name
+    listen: state_name
+  type: single
+  data:
+    y_fields:
+    - inventory_items.total_actual_cost
+  plate:
+    plate_width: 4
+    plate_height: 6
+    plate_x: 16
+    plate_y: 0
+
+- title: $ Profit
+  model: c1_order_items
+  select:
+  - total_profit
+  parameters:
+  - apply_to: orders.created_at_ts
+    listen: order_created_at
+  - apply_to: users.state_name
+    listen: state_name
+  type: single
+  data:
+    y_fields:
+    - total_profit
+  plate:
+    plate_width: 4
+    plate_height: 6
+    plate_x: 20
+    plate_y: 0
+
+- title: Orders Count by Users Age
+  model: c1_order_items
+  select:
+  - orders.orders_count
+  - users.age
+  sorts: users.age
+  parameters:
+  - apply_to: orders.created_at_ts
+    listen: order_created_at
+  - apply_to: users.state_name
+    listen: state_name
+  type: scatter
+  data:
+    x_field: users.age
+    y_fields:
+    - orders.orders_count
+  plate:
+    plate_width: 15
+    plate_height: 13
+    plate_x: 9
+    plate_y: 17
+
+- title: Order Items Total Sale Price by Orders Created at Hour Num
+  model: c1_order_items
+  select:
+  - orders.created_at_hour_num
+  - total_sale_price
+  sorts: orders.created_at_hour_num
+  limit: 20
+  parameters:
+  - apply_to: orders.created_at_ts
+    listen: order_created_at
+  - apply_to: users.state_name
+    listen: state_name
+  type: line
+  data:
+    x_field: orders.created_at_hour_num
+    y_fields:
+    - total_sale_price
+  plate:
+    plate_width: 16
+    plate_height: 11
+    plate_x: 0
+    plate_y: 6

@@ -1,0 +1,21 @@
+report: C0H2DVZKH0WBMHQBF9QY
+title: Flights - Flights and Aircrafts (2000 - 2005)
+rows:
+- row_id: A
+  type: metric
+  metric: c5_flights.flights_count.by.departed_at
+  show_chart: true
+  parameters: []
+
+- row_id: B
+  type: metric
+  metric: c5_flights.aircraft.aircrafts_count.by.departed_at
+  show_chart: true
+  parameters: []
+options:
+  series:
+  - data_row_id: B
+    y_axis_index: 1
+  y_axis:
+  - scale: false
+  - scale: false

@@ -1,0 +1,15 @@
+chart: J2N27XS541NR4SNQON8Y
+tiles:
+- title: Users Count by Gender by Traffic Source
+  model: c1_order_items
+  select:
+  - users.gender
+  - users.traffic_source
+  - users.users_count
+  sorts: users.traffic_source desc, users.gender desc
+  type: bar
+  data:
+    x_field: users.gender
+    y_fields:
+    - users.users_count
+    multi_field: users.traffic_source

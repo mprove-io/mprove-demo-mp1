@@ -1,0 +1,22 @@
+##! experimental{sql_functions}
+
+import './tables/c5_carriers_tx.malloy';
+import './tables/c5_airports_tx.malloy';
+import './tables/c5_flights_tx.malloy';
+import './tables/c5_aircraft_tx.malloy';
+import './tables/c5_aircraft_models_tx.malloy';
+
+#(mprove) model
+#(mprove) label="Flights" 
+#(mprove) top_label="Flights"
+source: c5_flights is c5_flights_tx extend {
+  join_one: carriers is c5_carriers_tx with carrier
+  join_one: origin is c5_airports_tx with origin_code
+  join_one: destination is c5_airports_tx with destination_code
+  join_one: aircraft is c5_aircraft_tx with tail_num
+  join_one: aircraft_models is c5_aircraft_models_tx on aircraft.aircraft_model_code = aircraft_models.aircraft_model_code
+
+  measure:
+    seats_sum is source.sum(aircraft_models.seats)
+    aircraft_seats_sum is aircraft.sum(aircraft_models.seats)
+}

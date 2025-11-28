@@ -1,0 +1,21 @@
+report: 0JDX1JF03IVGGJXKQBI7
+title: Formulas
+rows:
+- row_id: A
+  type: formula
+  name: S1
+  formula: '1'
+  show_chart: true
+
+- row_id: B
+  type: formula
+  name: S2
+  formula: $A*2
+  show_chart: true
+
+- row_id: C
+  type: formula
+  name: S3
+  formula: ($A + $B)*10
+  show_chart: true
+options: {}

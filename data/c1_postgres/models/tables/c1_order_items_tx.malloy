@@ -1,0 +1,17 @@
+##! experimental{sql_functions}
+
+source: c1_order_items_table is c1_postgres.table('ecommerce.order_items') extend {}
+
+source: c1_order_items_tx is c1_order_items_table extend {
+  primary_key: order_item_id
+
+  measure:  
+    order_items_count is count()
+  
+  #(mprove) format_number='$,.0f'
+  measure: 
+    total_sale_price is sale_price.sum()
+    average_sale_price is sale_price.avg()
+    least_expensive_item is sale_price.min()
+    most_expensive_item is sale_price.max()
+}

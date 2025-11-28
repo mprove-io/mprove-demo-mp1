@@ -1,0 +1,10 @@
+##! experimental{sql_functions}
+
+source: c1_products_table is c1_postgres.table('ecommerce.products') extend {}
+
+source: c1_products_tx is c1_products_table extend {
+  primary_key: product_id
+  
+  measure: 
+    products_count is count()
+}

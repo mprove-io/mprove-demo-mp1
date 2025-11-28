@@ -1,0 +1,21 @@
+report: HU5OFI4NPP27SZPM92BK
+title: Flights - Distance (2000 - 2005)
+rows:
+- row_id: A
+  type: metric
+  metric: c5_flights.total_distance.by.departed_at
+  show_chart: true
+  parameters: []
+
+- row_id: B
+  type: metric
+  metric: c5_flights.average_flight_distance.by.departed_at
+  show_chart: true
+  parameters: []
+options:
+  series:
+  - data_row_id: B
+    y_axis_index: 1
+  y_axis:
+  - scale: false
+  - scale: false

@@ -1,0 +1,21 @@
+report: P5RZLWBKTGBY8J0X5ZIB
+title: Flights - Airports and Carriers (2000 - 2005)
+rows:
+- row_id: A
+  type: metric
+  metric: c5_flights.carriers.carriers_count.by.departed_at
+  show_chart: true
+  parameters: []
+
+- row_id: B
+  type: metric
+  metric: c5_flights.origin.airports_count.by.departed_at
+  show_chart: true
+  parameters: []
+options:
+  series:
+  - data_row_id: A
+    y_axis_index: 1
+  y_axis:
+  - scale: false
+  - scale: false

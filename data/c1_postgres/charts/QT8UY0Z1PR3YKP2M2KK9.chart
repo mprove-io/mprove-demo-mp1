@@ -1,0 +1,21 @@
+chart: QT8UY0Z1PR3YKP2M2KK9
+tiles:
+- title: >-
+    Order Items Total Profit by Users Traffic Source by Orders Created at
+    Quarter
+  model: c1_order_items
+  select:
+  - users.traffic_source
+  - orders.created_at_quarter
+  - total_profit
+  sorts: orders.created_at_quarter
+  parameters:
+  - apply_to: orders.created_at_year
+    conditions:
+    - f`5 years`
+  type: line
+  data:
+    x_field: orders.created_at_quarter
+    y_fields:
+    - total_profit
+    multi_field: users.traffic_source

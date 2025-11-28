@@ -1,0 +1,11 @@
+chart: WTZRH1G2EB0UEJ3F5GXK
+tiles:
+- title: Total Profit
+  model: c1_order_items
+  select:
+  - total_profit
+  sorts: total_profit desc
+  type: single
+  data:
+    y_fields:
+    - total_profit
