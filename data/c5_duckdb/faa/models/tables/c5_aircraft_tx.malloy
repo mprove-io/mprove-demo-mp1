@@ -1,6 +1,34 @@
-##! experimental{sql_functions}
+##! experimental { sql_functions virtual_source }
 
-source: c5_aircraft_table is c5_duckdb.table('db1.aircraft') extend {}
+type: c5_aircraft_type is {
+  tail_num :: string,
+  aircraft_model_code :: string,
+  address1 :: string,
+  address2 :: string,
+  air_worth_date :: date,
+  aircraft_engine_code :: string,
+  aircraft_engine_type_id :: number,
+  aircraft_serial :: string,
+  aircraft_type_id :: number,
+  cert_issue_date :: date,
+  certification :: string,
+  city :: string,
+  country :: string,
+  county :: string,
+  fract_owner :: string,
+  id :: number,
+  last_action_date :: date,
+  mode_s_code :: string,
+  name :: string,
+  region :: string,
+  registrant_type_id :: number,
+  state :: string,
+  status_code :: string,
+  year_built :: number,
+  zip :: string
+}
+
+source: c5_aircraft_table is c5_duckdb.table('db1.aircraft')::c5_aircraft_type extend {}
 
 source: c5_aircraft_tx is c5_aircraft_table extend {
   primary_key: tail_num

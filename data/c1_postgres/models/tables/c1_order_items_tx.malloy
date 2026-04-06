@@ -1,6 +1,13 @@
-##! experimental{sql_functions}
+##! experimental { sql_functions virtual_source }
 
-source: c1_order_items_table is c1_postgres.table('ecommerce.order_items') extend {}
+type: c1_order_items_type is {
+  inventory_item_id :: string,
+  order_id :: string,
+  order_item_id :: string,
+  sale_price :: number
+}
+
+source: c1_order_items_table is c1_postgres.table('ecommerce.order_items')::c1_order_items_type extend {}
 
 source: c1_order_items_tx is c1_order_items_table extend {
   primary_key: order_item_id

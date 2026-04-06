@@ -1,6 +1,11 @@
-##! experimental{sql_functions}
+##! experimental { sql_functions virtual_source }
 
-source: c1_distribution_centers_table is c1_postgres.table('ecommerce.distribution_centers') extend {}
+type: c1_distribution_centers_type is {
+  distribution_center_id :: string,
+  name :: string
+}
+
+source: c1_distribution_centers_table is c1_postgres.table('ecommerce.distribution_centers')::c1_distribution_centers_type extend {}
 
 source: c1_distribution_centers_tx is c1_distribution_centers_table extend {
   primary_key: distribution_center_id

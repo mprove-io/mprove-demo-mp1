@@ -1,6 +1,18 @@
-##! experimental{sql_functions}
+##! experimental { sql_functions virtual_source }
 
-source: c1_users_table is c1_postgres.table('ecommerce.users') extend {}
+type: c1_users_type is {
+  user_id :: string,
+  age :: number,
+  city :: string,
+  email :: string,
+  first_name :: string,
+  gender :: string,
+  last_name :: string,
+  state :: string,
+  traffic_source :: string
+}
+
+source: c1_users_table is c1_postgres.table('ecommerce.users')::c1_users_type extend {}
 
 source: c1_users_tx is c1_users_table extend {
   primary_key: user_id 

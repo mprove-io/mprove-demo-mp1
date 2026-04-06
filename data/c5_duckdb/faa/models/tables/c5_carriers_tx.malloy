@@ -1,6 +1,12 @@
-##! experimental{sql_functions}
+##! experimental { sql_functions virtual_source }
 
-source: c5_carriers_table is c5_duckdb.table('db1.carriers') extend {}
+type: c5_carriers_type is {
+  code :: string,
+  name :: string,
+  nickname :: string
+}
+
+source: c5_carriers_table is c5_duckdb.table('db1.carriers')::c5_carriers_type extend {}
 
 source: c5_carriers_tx is c5_carriers_table extend {
   primary_key: code

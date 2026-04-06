@@ -1,6 +1,14 @@
-##! experimental{sql_functions}
+##! experimental { sql_functions virtual_source }
 
-source: c1_products_table is c1_postgres.table('ecommerce.products') extend {}
+type: c1_products_type is {
+  product_id :: string,
+  brand :: string,
+  category :: string,
+  cost :: number,
+  retail_price :: number
+}
+
+source: c1_products_table is c1_postgres.table('ecommerce.products')::c1_products_type extend {}
 
 source: c1_products_tx is c1_products_table extend {
   primary_key: product_id

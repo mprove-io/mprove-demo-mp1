@@ -1,6 +1,20 @@
-##! experimental{sql_functions}
+##! experimental { sql_functions virtual_source }
 
-source: c5_aircraft_models_table is c5_duckdb.table('db1.aircraft_models') extend {}
+type: c5_aircraft_models_type is {
+  aircraft_model_code :: string,
+  aircraft_category_id :: number,
+  aircraft_engine_type_id :: number,
+  aircraft_type_id :: number,
+  amateur :: number,
+  engines :: number,
+  manufacturer :: string,
+  model :: string,
+  seats :: number,
+  speed :: number,
+  weight :: number
+}
+
+source: c5_aircraft_models_table is c5_duckdb.table('db1.aircraft_models')::c5_aircraft_models_type extend {}
 
 source: c5_aircraft_models_tx is c5_aircraft_models_table extend {
   primary_key: aircraft_model_code

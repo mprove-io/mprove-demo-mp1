@@ -1,6 +1,13 @@
-##! experimental{sql_functions}
+##! experimental { sql_functions virtual_source }
 
-source: c1_orders_table is c1_postgres.table('ecommerce.orders') extend {}
+type: c1_orders_type is {
+  order_id :: string,
+  user_id :: string,
+  created_at :: number,
+  status :: string
+}
+
+source: c1_orders_table is c1_postgres.table('ecommerce.orders')::c1_orders_type extend {}
 
 source: c1_orders_tx is c1_orders_table extend {
   primary_key: order_id 

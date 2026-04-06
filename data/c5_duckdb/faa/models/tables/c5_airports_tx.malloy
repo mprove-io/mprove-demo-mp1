@@ -1,6 +1,36 @@
-##! experimental{sql_functions}
+##! experimental { sql_functions virtual_source }
 
-source: c5_airports_table is c5_duckdb.table('db1.airports') extend {}
+type: c5_airports_type is {
+  code :: string,
+  act_date :: string,
+  aero_cht :: string,
+  c_ldg_rts :: string,
+  cbd_dir :: string,
+  cbd_dist :: number,
+  cert :: string,
+  city :: string,
+  cntl_twr :: string,
+  county :: string,
+  cust_intl :: string,
+  elevation :: number,
+  faa_dist :: string,
+  faa_region :: string,
+  fac_type :: string,
+  fac_use :: string,
+  fed_agree :: string,
+  full_name :: string,
+  id :: number,
+  joint_use :: string,
+  latitude :: number,
+  longitude :: number,
+  major :: string,
+  mil_rts :: string,
+  own_type :: string,
+  site_number :: string,
+  state :: string
+}
+
+source: c5_airports_table is c5_duckdb.table('db1.airports')::c5_airports_type extend {}
 
 source: c5_airports_tx is c5_airports_table extend {
   primary_key: code

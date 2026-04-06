@@ -1,6 +1,25 @@
-##! experimental{sql_functions}
+##! experimental { sql_functions virtual_source }
 
-source: c5_flights_table is c5_duckdb.table('db1.flights') extend {}
+type: c5_flights_type is {
+  carrier :: string,
+  destination :: string,
+  origin :: string,
+  tail_num :: string,
+  arr_delay :: number,
+  arr_time :: timestamp,
+  cancelled :: string,
+  dep_delay :: number,
+  dep_time :: timestamp,
+  distance :: number,
+  diverted :: string,
+  flight_num :: string,
+  flight_time :: number,
+  id2 :: number,
+  taxi_in :: number,
+  taxi_out :: number
+}
+
+source: c5_flights_table is c5_duckdb.table('db1.flights')::c5_flights_type extend {}
 
 source: c5_flights_tx is c5_flights_table extend {
   primary_key: id2
