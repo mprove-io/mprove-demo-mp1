@@ -1,0 +1,107 @@
+schema: c1_postgres.ecommerce
+description: 'Ecommerce operational data covering customers, orders, products, stocked inventory, and fulfillment locations'
+tables:
+  - table: users
+    description: 'Customers and visitors with profile and acquisition attributes used to analyze demand by audience segment'
+    columns:
+      - column: user_id
+        description: 'Unique identifier for each customer account'
+        example: 'CUST_8X4M2Q1P'
+      - column: city
+        description: 'Customer city captured on the user profile'
+        example: 'Seattle'
+      - column: state
+        description: 'Customer state or province abbreviation'
+        example: 'WA'
+      - column: traffic_source
+        description: 'Marketing channel that originally brought the customer to the store'
+        example: 'Search'
+
+  - table: orders
+    description: 'Completed customer orders with creation timestamp and lifecycle status'
+    columns:
+      - column: order_id
+        description: 'Unique identifier for each order'
+        example: 'ORD_WU55UBH7'
+      - column: user_id
+        description: 'Customer who placed the order'
+        example: 'CUST_8X4M2Q1P'
+        relationships:
+          - to: users.user_id
+            type: many_to_one
+      - column: created_at
+        description: 'Unix epoch time when the order was created'
+        example: '1735689600'
+      - column: status
+        description: 'Current order processing status'
+        example: 'complete'
+
+  - table: order_items
+    description: 'Line items purchased within each order, including the sold inventory unit and sale price'
+    columns:
+      - column: order_item_id
+        description: 'Unique identifier for each order line item'
+        example: 'ITEM_932UZB7X'
+      - column: order_id
+        description: 'Order that contains this line item'
+        example: 'ORD_WU55UBH7'
+        relationships:
+          - to: orders.order_id
+            type: many_to_one
+      - column: inventory_item_id
+        description: 'Inventory unit that was sold on this order line'
+        example: 'INV_TVS54B5E'
+        relationships:
+          - to: inventory_items.inventory_item_id
+            type: many_to_one
+      - column: sale_price
+        description: 'Final selling price charged for the line item'
+        example: '76.13'
+
+  - table: inventory_items
+    description: 'Individually tracked inventory units tied to products and fulfillment centers'
+    columns:
+      - column: inventory_item_id
+        description: 'Unique identifier for a stocked inventory unit'
+        example: 'INV_TVS54B5E'
+      - column: product_id
+        description: 'Product represented by this inventory unit'
+        example: 'PROD_37J1BMBAT'
+        relationships:
+          - to: products.product_id
+            type: many_to_one
+      - column: distribution_center_id
+        description: 'Fulfillment location where the unit is stocked'
+        example: 'DC_LAHBOPQU'
+        relationships:
+          - to: distribution_centers.distribution_center_id
+            type: many_to_one
+      - column: actual_cost
+        description: 'Unit cost recorded for the stocked item'
+        example: '43.51'
+
+  - table: products
+    description: 'Sellable catalog products with merchandising and pricing attributes'
+    columns:
+      - column: product_id
+        description: 'Unique identifier for each catalog product'
+        example: 'PROD_37J1BMBAT'
+      - column: brand
+        description: 'Brand associated with the product listing'
+        example: 'Nautica'
+      - column: category
+        description: 'Merchandise category used for assortment analysis'
+        example: 'Outerwear & Coats'
+      - column: retail_price
+        description: 'Listed retail price before order-level pricing effects'
+        example: '167.75'
+
+  - table: distribution_centers
+    description: 'Fulfillment and warehouse locations that hold inventory and serve customer orders'
+    columns:
+      - column: distribution_center_id
+        description: 'Unique identifier for a fulfillment center'
+        example: 'DC_LAHBOPQU'
+      - column: name
+        description: 'Display name of the fulfillment center'
+        example: 'West Kyra WY'

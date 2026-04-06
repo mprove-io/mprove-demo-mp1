@@ -1,0 +1,271 @@
+schema: c5_duckdb.main
+description: 'Reference and operational datasets in DuckDB, including FAA aviation entities and flight activity records'
+tables:
+  - table: carriers
+    description: 'Airline carrier reference records with marketing codes and display names'
+    columns:
+      - column: code
+        description: 'Unique airline carrier code used on flight records'
+        example: 'DL'
+      - column: name
+        description: 'Full airline name'
+        example: 'Delta Air Lines'
+      - column: nickname
+        description: 'Short display name for the carrier'
+        example: 'Delta'
+
+  - table: airports
+    description: 'Airport reference data with FAA identifiers, geographic attributes, and airport names'
+    columns:
+      - column: code
+        description: 'Airport code used as the flight origin or destination'
+        example: 'PHL'
+      - column: full_name
+        description: 'Full airport name used for reporting and display'
+        example: 'Philadelphia International'
+      - column: city
+        description: 'City served by the airport'
+        example: 'Philadelphia'
+      - column: state
+        description: 'State or territory abbreviation for the airport'
+        example: 'PA'
+
+  - table: aircraft_models
+    description: 'Aircraft model reference data describing manufacturers, model families, capacity, and equipment type'
+    columns:
+      - column: aircraft_model_code
+        description: 'Unique model code referenced by registered aircraft'
+        example: '7100510'
+      - column: manufacturer
+        description: 'Aircraft manufacturer name'
+        example: 'Boeing'
+      - column: model
+        description: 'Manufacturer model designation'
+        example: '737-800'
+      - column: seats
+        description: 'Configured seat capacity for the model when available'
+        example: '160'
+
+  - table: aircraft
+    description: 'Registered aircraft records with tail numbers, ownership details, and model references'
+    columns:
+      - column: tail_num
+        description: 'Aircraft tail number appearing on flight activity records'
+        example: 'N806MD'
+      - column: aircraft_model_code
+        description: 'Model code assigned to the aircraft registration'
+        example: '7100510'
+        relationships:
+          - to: aircraft_models.aircraft_model_code
+            type: many_to_one
+      - column: year_built
+        description: 'Year the aircraft was built'
+        example: '1998'
+      - column: state
+        description: 'State associated with the aircraft owner registration'
+        example: 'AZ'
+
+  - table: databases
+    description: 'DuckDB database catalog entries used by platform metadata and storage tracking tables'
+    columns:
+      - column: uuid
+        description: 'Unique identifier for a database'
+        example: 'db_3f1a9c7e'
+      - column: name
+        description: 'Database display name'
+        example: 'faa'
+      - column: type
+        description: 'Database type classification'
+        example: 'motherduck'
+
+  - table: database_snapshots
+    description: 'Point-in-time database snapshot metadata with ownership and storage activity details'
+    columns:
+      - column: snapshot_id
+        description: 'Unique identifier for a database snapshot'
+        example: 'snap_20250301_001'
+      - column: database_id
+        description: 'Database associated with the snapshot'
+        example: 'db_3f1a9c7e'
+        relationships:
+          - to: databases.uuid
+            type: many_to_one
+      - column: database_name
+        description: 'Display name of the snapshotted database'
+        example: 'faa'
+      - column: user_name
+        description: 'User who created or owns the snapshot activity record'
+        example: 'analyst@example.com'
+
+  - table: storage_info
+    description: 'Current storage footprint metrics for each database'
+    columns:
+      - column: database_id
+        description: 'Database associated with the storage metrics row'
+        example: 'db_3f1a9c7e'
+        relationships:
+          - to: databases.uuid
+            type: many_to_one
+      - column: database_name
+        description: 'Display name of the database'
+        example: 'faa'
+      - column: active_bytes
+        description: 'Current active storage volume in bytes'
+        example: '1048576'
+
+  - table: storage_info_history
+    description: 'Historical storage footprint metrics for each database over time'
+    columns:
+      - column: database_id
+        description: 'Database associated with the historical storage metrics row'
+        example: 'db_3f1a9c7e'
+        relationships:
+          - to: databases.uuid
+            type: many_to_one
+      - column: database_name
+        description: 'Display name of the database'
+        example: 'faa'
+      - column: computed_ts
+        description: 'Timestamp when the storage metrics were computed'
+        example: '2025-03-01 00:00:00'
+
+  - table: owned_shares
+    description: 'Database shares owned by the current account and linked back to their source database'
+    columns:
+      - column: source_db_uuid
+        description: 'Source database backing the share'
+        example: 'db_3f1a9c7e'
+        relationships:
+          - to: databases.uuid
+            type: many_to_one
+      - column: name
+        description: 'Share name shown in the platform'
+        example: 'faa_public_share'
+      - column: visibility
+        description: 'Visibility setting for the share'
+        example: 'private'
+
+  - table: users
+    description: 'Customer records used by the ecommerce sample tables'
+    columns:
+      - column: id
+        description: 'Unique identifier for a customer'
+        example: 'USR_8QU9AMJ1'
+      - column: email
+        description: 'Customer email address'
+        example: 'customer@example.com'
+      - column: city
+        description: 'Customer city'
+        example: 'Seattle'
+      - column: state
+        description: 'Customer state or province abbreviation'
+        example: 'WA'
+
+  - table: products
+    description: 'Catalog products with merchandising attributes and retail pricing'
+    columns:
+      - column: id
+        description: 'Unique identifier for a product'
+        example: 'PROD_VOZV6HXG'
+      - column: brand
+        description: 'Brand associated with the product'
+        example: 'Nautica'
+      - column: category
+        description: 'Product category used for merchandising analysis'
+        example: 'Outerwear & Coats'
+      - column: retail_price
+        description: 'Listed retail price for the product'
+        example: '167.75'
+
+  - table: inventory_items
+    description: 'Inventory records representing stocked units of catalog products'
+    columns:
+      - column: id
+        description: 'Unique identifier for an inventory item'
+        example: 'INV_TVS54B5E'
+      - column: product_id
+        description: 'Product represented by the inventory item'
+        example: 'PROD_VOZV6HXG'
+        relationships:
+          - to: products.id
+            type: many_to_one
+      - column: product_name
+        description: 'Product name denormalized onto the inventory record'
+        example: 'Classic insulated jacket'
+      - column: cost
+        description: 'Recorded unit cost of the inventory item'
+        example: '43.51'
+
+  - table: order_items
+    description: 'Customer purchase line items tied to inventory units and customer accounts'
+    columns:
+      - column: id
+        description: 'Unique identifier for an order line item'
+        example: 'ITEM_932UZB7X'
+      - column: inventory_item_id
+        description: 'Inventory item sold on the order line'
+        example: 'INV_TVS54B5E'
+        relationships:
+          - to: inventory_items.id
+            type: many_to_one
+      - column: user_id
+        description: 'Customer associated with the purchased line item'
+        example: 'USR_8QU9AMJ1'
+        relationships:
+          - to: users.id
+            type: many_to_one
+      - column: order_id
+        description: 'Order identifier carried on the line item record'
+        example: 'ORD_WU55UBH7'
+      - column: sale_price
+        description: 'Final sale price charged for the line item'
+        example: '76.13'
+
+  - table: flights
+    description: 'Scheduled flight operations with carrier, route, aircraft, timing, and delay metrics'
+    columns:
+      - column: id2
+        description: 'Unique identifier for a flight record'
+        example: '30272525'
+      - column: carrier
+        description: 'Airline carrier operating the flight'
+        example: 'US'
+        relationships:
+          - to: carriers.code
+            type: many_to_one
+      - column: origin
+        description: 'Origin airport code for the departing flight'
+        example: 'PHL'
+        relationships:
+          - to: airports.code
+            type: many_to_one
+      - column: destination
+        description: 'Destination airport code for the arriving flight'
+        example: 'ABE'
+        relationships:
+          - to: airports.code
+            type: many_to_one
+      - column: tail_num
+        description: 'Aircraft tail number used to operate the flight'
+        example: 'N806MD'
+        relationships:
+          - to: aircraft.tail_num
+            type: many_to_one
+      - column: flight_num
+        description: 'Carrier flight number'
+        example: '1692'
+      - column: dep_time
+        description: 'Scheduled or recorded departure timestamp'
+        example: '2004-11-18 22:32:00'
+      - column: arr_time
+        description: 'Scheduled or recorded arrival timestamp'
+        example: '2004-11-18 23:09:00'
+      - column: distance
+        description: 'Flight distance in miles'
+        example: '55'
+      - column: cancelled
+        description: 'Whether the flight was cancelled'
+        example: 'N'
+      - column: diverted
+        description: 'Whether the flight was diverted from its planned destination'
+        example: 'N'
