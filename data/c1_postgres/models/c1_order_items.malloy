@@ -1,5 +1,7 @@
-##! experimental{sql_functions}
+##! experimental.sql_functions
+##! experimental.givens
 
+import '../../givens.malloy';
 import './tables/c1_order_items_tx.malloy';
 import './tables/c1_orders_tx.malloy';
 import './tables/c1_users_tx.malloy';
@@ -25,4 +27,7 @@ source: c1_order_items is c1_order_items_tx extend {
     #(mprove) format_number='.2%'
     # percent
     profit_margin is total_profit / total_sale_price
+
+  where: 
+    orders.created_at_ts >= $START_TS
 }
