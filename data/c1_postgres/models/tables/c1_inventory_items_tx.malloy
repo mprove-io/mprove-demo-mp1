@@ -1,4 +1,4 @@
-##! experimental { sql_functions virtual_source }
+##! experimental{}
 
 type: c1_inventory_items_type is {
   inventory_item_id :: string,

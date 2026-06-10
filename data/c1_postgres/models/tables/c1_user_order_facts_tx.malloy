@@ -1,4 +1,4 @@
-##! experimental{sql_functions}
+##! experimental{}
 
 import './c1_orders_tx.malloy';
 

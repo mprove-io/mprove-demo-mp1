@@ -1,4 +1,4 @@
-##! experimental { sql_functions virtual_source }
+##! experimental{}
 
 type: c1_users_type is {
   user_id :: string,

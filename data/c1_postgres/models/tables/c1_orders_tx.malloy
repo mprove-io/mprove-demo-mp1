@@ -1,6 +1,4 @@
-##! experimental{sql_functions}
-##! experimental.access_modifiers
-##! experimental { sql_functions virtual_source }
+##! experimental{}
 
 type: c1_orders_type is {
   order_id :: string,

@@ -12,4 +12,4 @@ Thumbs.db
 # IDE - VSCode
 .vscode/*
 
-.mprove/
+malloy-config.json
