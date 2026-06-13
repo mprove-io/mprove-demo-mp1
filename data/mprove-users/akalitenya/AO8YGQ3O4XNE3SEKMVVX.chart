@@ -1,0 +1,19 @@
+chart: AO8YGQ3O4XNE3SEKMVVX
+tiles:
+- title: Order Items Total Profit by Users Traffic Source by Products Category
+  model: c1_order_items
+  select:
+  - users.traffic_source
+  - products.category
+  - total_profit
+  sorts: users.traffic_source
+  type: pivot_table
+  data:
+    pivot_rows:
+    - products.category
+    pivot_columns:
+    - users.traffic_source
+    pivot_values:
+    - field: total_profit
+  options:
+    value_columns_width: 182
