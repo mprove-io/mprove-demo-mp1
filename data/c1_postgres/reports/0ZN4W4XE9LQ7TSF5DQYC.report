@@ -3,11 +3,13 @@ title: Ecom - Sales, Cost, Profit (2010 - 2029)
 parameters:
 - filter: products_brand
   result: string
+  suggest_model_dimension: c1_order_items.products.brand
   conditions:
   - f``
 
 - filter: users_city
   result: string
+  suggest_model_dimension: c1_order_items.users.city
   conditions:
   - f``
 rows:
